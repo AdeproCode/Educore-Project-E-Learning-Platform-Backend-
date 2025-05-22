@@ -5,8 +5,7 @@ const dotenv = require("dotenv");
 const { handleForgotPassword } = require("./Controllers/forgotPassword");
 const { registerUser, loginUser, viewAllUser } = require("./Controllers/userController");
 const validateRegister = require("./middleware");
-const courseEnrollment = require("./Controllers/enrollmentController");
-const {viewAllCourse, createACourse, viewEnrolledCourses} = require("./Controllers/courseController");
+const {viewAllCourse, createACourse, viewEnrolledCourses, courseEnrollment} = require("./Controllers/courseController");
 
 dotenv.config();
 
