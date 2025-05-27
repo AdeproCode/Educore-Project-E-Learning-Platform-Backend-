@@ -126,4 +126,33 @@ const viewEnrolledCourses = async (req, res) => {
     }
 }
 
-module.exports = {viewAllCourse, createACourse, courseEnrollment, viewEnrolledCourses};
+
+const handleStudentEnrolledCourse = async (req, res)=>{
+   try {
+     const { courseId } = req.body;
+ 
+     const StudentRole = await Auth.findOne({ student: Auth?.role });
+ 
+     if (!StudentRole) {
+         res.status(400).json({message: "Only student can view course enrolled"})
+     };
+ 
+       const coursesEnrolled = await Course.findById(courseId);
+       if (!courseEnrollment) {
+           res.status(404).json({ message: "No course found with this account" });
+       }
+     
+       res.status(201).json({
+           message: "You enrolled for the following courses",
+           coursesEnrolled
+       })
+ 
+   } catch (error) {
+    res.status(500).json({message: error.message})
+   }
+
+};
+
+
+
+module.exports = {viewAllCourse, createACourse, courseEnrollment, viewEnrolledCourses, handleStudentEnrolledCourse};

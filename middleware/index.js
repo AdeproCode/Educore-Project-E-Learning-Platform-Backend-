@@ -1,4 +1,8 @@
-
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const Auth = require("../models/userModel")
+const app = express();
+app.use(express.json())
 
 const validateRegister = async (  req, res, next) => {
      // To destucture the user info  
@@ -24,9 +28,23 @@ const validateRegister = async (  req, res, next) => {
 
 const auth = async (req, res, next) => {
     
+    const token = req.header("authorization");
+  
+    const splitToken = token.split(" ");
+    const realToken = splitToken[1];
+    const tokenDecoded = jwt.verify(realToken, process.env.ACCESS_TOKEN);
+    if (!tokenDecoded){
+       return res.status(401).json({ message: "Please login" });
+    }
 
-    
+    const user = await Auth.findById(tokenDecoded.id);
+    if (!user) {
+        return res.status(404).json({ message: "User account does not exist" });
+            }
+    req.user = user;
+    next();
+
 }
 
 
-module.exports = validateRegister;
+module.exports = {validateRegister, auth};
