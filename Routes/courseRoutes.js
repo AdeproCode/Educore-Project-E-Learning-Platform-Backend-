@@ -1,6 +1,6 @@
 const express = require("express");
 const { auth, checkRole } = require("../middleware");
-const {createACourse, viewAllCourse, courseEnrollment, viewEnrolledCourses, handleStudentEnrolledCourse, courseDetails }= require("../Controllers/courseController")
+const {createACourse, viewAllCourse, courseEnrollment, viewEnrolledCourses, handleStudentEnrolledCourse, courseDetails, handleCourseCompletion }= require("../Controllers/courseController")
 const router = express.Router();
 
 
@@ -27,7 +27,11 @@ router.get("/student/enrolled-courses", auth, checkRole, handleStudentEnrolledCo
 
 
 // view course details route
-router.get("/course-details/:id", courseDetails)
+router.get("/course-details/:id", courseDetails);
+
+
+//add course completion status (boolean)
+router.put("/course-completion/:courseId", auth, handleCourseCompletion);
 
 
 

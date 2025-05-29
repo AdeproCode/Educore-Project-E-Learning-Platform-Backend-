@@ -10,9 +10,10 @@ const enrollmentSchema = new mongoose.Schema({
         type: String,
         enum: ["Pending", "Approved", "Rejected"],
         default: "Pending"
-    }
+    },
+    completed: {type: Boolean, default: true}
 },
-    { timestamps: true }
+    { timestamps: false }
 );
 
 
