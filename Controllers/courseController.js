@@ -108,7 +108,7 @@ const courseEnrollment = async (req, res) => {
 
 
 
-
+// Instructors can view enrolled courses
 const viewEnrolledCourses = async (req, res) => {
     try {
         const enrolledCourse = await EnrollCourse.find();
@@ -126,26 +126,28 @@ const viewEnrolledCourses = async (req, res) => {
     }
 }
 
-
+// Student can view enrolled courses
 const handleStudentEnrolledCourse = async (req, res)=>{
    try {
-     const { courseId } = req.body;
- 
-     const StudentRole = await Auth.findOne({ student: Auth?.role });
- 
-     if (!StudentRole) {
-         res.status(400).json({message: "Only student can view course enrolled"})
-     };
- 
-       const coursesEnrolled = await Course.findById(courseId);
-       if (!courseEnrollment) {
-           res.status(404).json({ message: "No course found with this account" });
-       }
-     
-       res.status(201).json({
+    
+       const studentId = req.user._id;
+       
+       const courseEnrollments = await EnrollCourse.find({ student: studentId });
+  
+       const courses = [];
+
+for (const enrollment of courseEnrollments) {
+  const course = await Course.findById(enrollment.course);
+  if (course) {
+    courses.push(course);
+  }
+}
+    
+       return res.status(200).json({
            message: "You enrolled for the following courses",
-           coursesEnrolled
-       })
+            courses
+         })
+       
  
    } catch (error) {
     res.status(500).json({message: error.message})
@@ -155,4 +157,25 @@ const handleStudentEnrolledCourse = async (req, res)=>{
 
 
 
-module.exports = {viewAllCourse, createACourse, courseEnrollment, viewEnrolledCourses, handleStudentEnrolledCourse};
+const courseDetails = async (req, res) => {
+    try {
+        const studentId = req.params.id;
+
+        const course = await Course.findById(studentId)
+        if (!course) {
+            res.status(404).json({message: "No course found"})
+        };
+
+        res.status(201).json({
+            message: "Course details",
+            course
+        })
+
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
+
+
+module.exports = {viewAllCourse, createACourse, courseEnrollment, viewEnrolledCourses, handleStudentEnrolledCourse, courseDetails};

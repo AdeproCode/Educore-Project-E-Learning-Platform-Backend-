@@ -25,26 +25,52 @@ const validateRegister = async (  req, res, next) => {
         next()
 }
 
-
+// to authorize user
 const auth = async (req, res, next) => {
     
     const token = req.header("authorization");
   
     const splitToken = token.split(" ");
     const realToken = splitToken[1];
-    const tokenDecoded = jwt.verify(realToken, process.env.ACCESS_TOKEN);
-    if (!tokenDecoded){
-       return res.status(401).json({ message: "Please login" });
+    const tokenDecoded = jwt.verify(realToken, `${process.env.ACCESS_TOKEN}`);
+    if (!tokenDecoded) {
+        return res.status(401).json({ message: "Please login" });
     }
-
-    const user = await Auth.findById(tokenDecoded.id);
+    
+    const user = await Auth.findById(tokenDecoded.user._id);
     if (!user) {
-        return res.status(404).json({ message: "User account does not exist" });
-            }
+        res.json(404).json({
+            message: "User account not exist"
+        })
+    }
     req.user = user;
     next();
 
+    
+};
+
+// to check role
+const checkRole = async (req, res, next) => {
+    
+    if (!req.user) {
+       return res.status(400).json({
+            message: "Unauthorizesd"
+        })
+    }
+    if (req.user.role !== "student") {
+        return res.status(400).json({
+            message: "Access denied: student only"
+        })
+    }    
+
+
+next()
 }
 
 
-module.exports = {validateRegister, auth};
+
+
+
+
+
+module.exports = {validateRegister, auth, checkRole};

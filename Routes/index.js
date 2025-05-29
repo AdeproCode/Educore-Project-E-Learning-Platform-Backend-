@@ -1,9 +1,11 @@
 
-const authRoutes = require("./authRoutes")
+const authRoutes = require("./authRoutes");
+const courseRoutes = require("./courseRoutes");
 
 
 const routes = [
-    authRoutes
+    authRoutes,
+    courseRoutes
 ]
 
 
