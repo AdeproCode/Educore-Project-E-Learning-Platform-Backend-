@@ -156,7 +156,7 @@ for (const enrollment of courseEnrollments) {
 };
 
 
-
+// Course details route
 const courseDetails = async (req, res) => {
     try {
         const studentId = req.params.id;

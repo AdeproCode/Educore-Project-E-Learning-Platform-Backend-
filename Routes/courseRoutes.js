@@ -26,6 +26,7 @@ router.get("/instructor/courses-enrolled", viewEnrolledCourses);
 router.get("/student/enrolled-courses", auth, checkRole, handleStudentEnrolledCourse);
 
 
+// view course details route
 router.get("/course-details/:id", courseDetails)
 
 
