@@ -1,5 +1,6 @@
-const { jwt } = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const Auth = require("../models/userModel");
+const sendForgotPasswordEmail = require("../sendMails")
 
 
 const handleForgotPassword = async (req, res) => {
