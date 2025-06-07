@@ -49,8 +49,12 @@ const handleResetPassword = async (req, res) => {
         user.password = hashedPassword;
 
         await user.save();
-
-        await sendSuccessfulPasswordResetEmail(email)
+        const accessToken = await jwt.sign(
+            { user },
+            `${process.env.ACCESS_TOKEN}`,
+            { expiresIn: "5m" }
+        )
+        await sendSuccessfulPasswordResetEmail(email, accessToken)
 
     } catch (error) {
         res.status(500).json({message: error.message})
