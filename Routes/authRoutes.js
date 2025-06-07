@@ -6,7 +6,7 @@ const { handleForgotPassword, handleResetPassword } = require("../Controllers/fo
 const router = express.Router();
 
 
-
+// Base api
 router.get("/", async (req, res) => {
     res.status(201).json({message: "Welcome to Educore"}) 
  });

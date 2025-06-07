@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Auth = require("../models/userModel");
-const sendForgotPasswordEmail = require("../sendMails")
+const {sendForgotPasswordEmail, sendSuccessfulPasswordResetEmail} = require("../sendMails") 
 
 // User get forgotten password email  
 const handleForgotPassword = async (req, res) => {
