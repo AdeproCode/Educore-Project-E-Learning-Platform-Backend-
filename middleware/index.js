@@ -29,6 +29,9 @@ const validateRegister = async (  req, res, next) => {
 const auth = async (req, res, next) => {
     
     const token = req.header("authorization");
+    if(!token){
+        return res.status(401).json({message: "Please login!"})
+    }
   
     const splitToken = token.split(" ");
     const realToken = splitToken[1];
