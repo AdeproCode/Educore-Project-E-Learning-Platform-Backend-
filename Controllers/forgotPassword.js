@@ -41,7 +41,7 @@ const handleResetPassword = async (req, res) => {
 
         const user = await Auth.findOne({ email: req.user.email });
         if (!user) {
-            return res.status(404).json({message: "No user account found with this email"})
+            return res.status(404).json({ message: "No user account found with this email" })
         };
 
 
@@ -57,9 +57,9 @@ const handleResetPassword = async (req, res) => {
         await sendSuccessfulPasswordResetEmail(email, accessToken)
 
     } catch (error) {
-        res.status(500).json({message: error.message})
+        res.status(500).json({ message: error.message })
     }
-}
+};
 
 
 

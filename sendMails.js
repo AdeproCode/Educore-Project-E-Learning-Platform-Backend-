@@ -22,7 +22,7 @@ const sendForgotPasswordEmail = async (email, token) => {
 };
 
 
-const sendSuccessfulPasswordResetEmail = async (email, token) => {
+const sendSuccessfulPasswordResetEmail = async (email, token, next) => {
     let mailTransport = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -35,11 +35,12 @@ const sendSuccessfulPasswordResetEmail = async (email, token) => {
         from: `${process.env.EMAIL}`,
         to: `${email}`,
         subject: "Reset password Notification",
-        html: `<h1> You have successfully reset your password. You can return to the login page to login.</h1>`
+        html: `<h1> You have successfully reset your password. You can return to the login page to login ${token}</h1>`
     }
 
 
     await mailTransport.sendMail(mailDetails);
+    next();
 };
 
 
