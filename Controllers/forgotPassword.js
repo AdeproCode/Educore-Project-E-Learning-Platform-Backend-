@@ -37,7 +37,7 @@ const handleForgotPassword = async (req, res) => {
 
 const handleResetPassword = async (req, res) => {
     try {
-        const { password } = req.body;
+        const { password, email } = req.body;
 
         const user = await Auth.findOne({ email: req.user.email });
         if (!user) {
