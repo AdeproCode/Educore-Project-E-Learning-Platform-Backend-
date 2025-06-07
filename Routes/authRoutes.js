@@ -1,7 +1,7 @@
 const express = require("express");
 const { validateRegister, auth } = require("../middleware");
 const { registerUser, viewAllUser, loginUser } = require("../Controllers/userController");
-const { handleForgotPassword } = require("../Controllers/forgotPassword");
+const { handleForgotPassword, handleResetPassword } = require("../Controllers/forgotPassword");
 
 const router = express.Router();
 
@@ -27,7 +27,10 @@ router.get("/", async (req, res) => {
  
  
  // forgoten password
- router.post("/forgot-password", handleForgotPassword);
+router.post("/forgot-password", handleForgotPassword);
+ 
+// User get to reset their password
+router.post("/reset-password", auth, handleResetPassword);
  
 
 

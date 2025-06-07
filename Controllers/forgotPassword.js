@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const Auth = require("../models/userModel");
 const sendForgotPasswordEmail = require("../sendMails")
 
-
+// User get forgotten password email  
 const handleForgotPassword = async (req, res) => {
     try {
         const { email } = req.body
@@ -16,7 +16,7 @@ const handleForgotPassword = async (req, res) => {
         }
 
 
-        // send email
+        // send reset password email
         const accessToken = await jwt.sign(
             { user },
             `${process.env.ACCESS_TOKEN}`,
@@ -34,9 +34,29 @@ const handleForgotPassword = async (req, res) => {
 
 
 
+const handleResetPassword = async (req, res) => {
+    try {
+        const { password } = req.body;
+
+        const user = await Auth.findOne({ email: req.user.email });
+        if (!user) {
+            return res.status(404).json({message: "No user account found with this email"})
+        };
+
+
+        const hashedPassword = await bcrypt.hash(password, 12);
+        user.password = hashedPassword;
+
+        await user.save();
+
+        await sendSuccessfulPasswordResetEmail(email)
+
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
 
 
 
 
-
-module.exports = { handleForgotPassword };
+module.exports = { handleForgotPassword, handleResetPassword };
