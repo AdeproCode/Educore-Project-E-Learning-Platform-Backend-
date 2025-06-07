@@ -14,7 +14,7 @@ const sendForgotPasswordEmail = async (email, token) => {
         from: `${process.env.EMAIL}`,
         to: `${email}`,
         subject: "Reset password Notification",
-        html: `<h1> Here is the token to reset your password, please click this button <a href = "https://www.educore.com/${token}">Reset Password</a></h1>`
+        html: `<h1> Here is the token to reset your password, please click this button <a href = "https://educore-project-e-learning-platform.onrender.com/api/reset-password${token}">Reset Password</a></h1>`
     }
 
 
@@ -22,7 +22,7 @@ const sendForgotPasswordEmail = async (email, token) => {
 };
 
 
-const sendSuccessfulPasswordResetEmail = async (email, token, next) => {
+const sendSuccessfulPasswordResetEmail = async (email) => {
     let mailTransport = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -35,12 +35,11 @@ const sendSuccessfulPasswordResetEmail = async (email, token, next) => {
         from: `${process.env.EMAIL}`,
         to: `${email}`,
         subject: "Reset password Notification",
-        html: `<h1> You have successfully reset your password. You can return to the login page to login ${token}</h1>`
+        html: `<h1> You have successfully reset your password. You can return to the login page to login</h1>`
     }
 
 
     await mailTransport.sendMail(mailDetails);
-    next();
 };
 
 
