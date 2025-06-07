@@ -1,11 +1,11 @@
 const express = require("express");
-const { auth, checkRole } = require("../middleware");
+const { auth, checkRole, isInstructor } = require("../middleware");
 const {createACourse, viewAllCourse, courseEnrollment, viewEnrolledCourses, handleStudentEnrolledCourse, courseDetails, handleCourseCompletion }= require("../Controllers/courseController")
 const router = express.Router();
 
 
  // To create a course by instructor
- router.post("/create-course", auth, createACourse);
+ router.post("/create-course", auth, isInstructor, createACourse);
  
  
  

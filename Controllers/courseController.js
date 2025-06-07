@@ -9,14 +9,7 @@ const createACourse = async (req, res) => {
 
         const { courseTitle, courseDescription, courseVideo, courseImage } = req.body;
 
-        const isInstructor = await Auth.findOne({ role: Auth?.role });
-        if (isInstructor !== "instructor") {
-            res.status(400).json({
-                message: "Only instructor can create course"
-            })
-        }
-       
-        const createdCourse = new Course({
+            const createdCourse = new Course({
             courseTitle, courseDescription, courseVideo, courseImage
         })
         await createdCourse.save()

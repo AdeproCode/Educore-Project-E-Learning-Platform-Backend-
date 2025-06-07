@@ -67,10 +67,25 @@ const checkRole = async (req, res, next) => {
 next()
 }
 
+const isInstructor = async (req, res, next) => {
+    
+    if (!req.user) {
+       return res.status(400).json({
+            message: "Unauthorizesd"
+        })
+    }
+    if (req.user.role !== "instructor") {
+        return res.status(400).json({
+            message: "Access denied: instructor only"
+        })
+    }    
+
+
+next()
+}
 
 
 
 
 
-
-module.exports = {validateRegister, auth, checkRole};
+module.exports = {validateRegister, auth, checkRole, isInstructor};
