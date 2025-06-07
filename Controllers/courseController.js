@@ -33,7 +33,7 @@ const viewAllCourse = async (req, res) => {
     try {
         const course = await Course.find();
 
-        res.status(201).json({
+        res.status(200).json({
             message: "All courses",
             course
         })
@@ -159,7 +159,7 @@ const courseDetails = async (req, res) => {
             res.status(404).json({ message: "No course found" })
         };
 
-        res.status(201).json({
+        res.status(200).json({
             message: "Course details",
             course
         })

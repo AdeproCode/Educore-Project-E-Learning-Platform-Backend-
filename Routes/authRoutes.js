@@ -30,7 +30,7 @@ router.get("/", async (req, res) => {
 router.post("/forgot-password", handleForgotPassword);
  
 // User get to reset their password
-router.post("/reset-password", auth, handleResetPassword);
+router.patch("/reset-password", auth, handleResetPassword);
  
 
 
